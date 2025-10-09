@@ -1,0 +1,93 @@
+import React, { useState, useEffect } from "react";
+import { Nav } from "react-bootstrap";
+import { FaDatabase, FaMoneyBillWave, FaQrcode, FaBars } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LuLogOut } from "react-icons/lu";
+
+function Sidemenubar() {
+  const [activeLink, setActiveLink] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location]);
+
+  const token = localStorage.getItem("token");
+
+  if (!token || location.pathname === "/") {
+    return null; // Don't show sidebar on login page
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+  return (
+    <div>
+      {/* 🔹 Header */}
+      <div className="header">
+        <FaBars
+          className="hamburger"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        />
+        <img src="/logo.png" alt="Logo" />
+        <button onClick={handleLogout}>
+          <LuLogOut /> Logout
+        </button>
+      </div>
+
+      {/* 🔹 Sidebar */}
+      <div className={`side-menu ${sidebarOpen ? "open" : ""}`}>
+        <Nav className="flex-column">
+          <Nav.Item>
+            <Nav.Link
+              as={Link}
+              to="/Data"
+              className={activeLink === "/Data" ? "active" : ""}
+              onClick={() => {
+                setActiveLink("/Data");
+                setSidebarOpen(false);
+              }}
+            >
+              <FaDatabase />
+              <span className="link-text">Data</span>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              as={Link}
+              to="/Withdraw"
+              className={activeLink === "/Withdraw" ? "active" : ""}
+              onClick={() => {
+                setActiveLink("/Withdraw");
+                setSidebarOpen(false);
+              }}
+            >
+              <FaMoneyBillWave />
+              <span className="link-text">Withdraw</span>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              as={Link}
+              to="/QR"
+              className={activeLink === "/QR" ? "active" : ""}
+              onClick={() => {
+                setActiveLink("/QR");
+                setSidebarOpen(false);
+              }}
+            >
+              <FaQrcode />
+              <span className="link-text">QR</span>
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
+    </div>
+  );
+}
+
+export default Sidemenubar;

@@ -1,0 +1,79 @@
+.main-content {
+  padding: 20px;
+}
+
+/* Make table scrollable horizontally */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.purchase-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 700px; /* keep structure on wide screen */
+}
+
+.purchase-table th,
+.purchase-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap; /* prevent breaking */
+}
+
+.purchase-table th {
+  background-color: #40434e;
+  color: #fff;
+}
+
+.purchase-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* ✅ Responsive: Convert to cards on small screens */
+@media (max-width: 768px) {
+  .purchase-table,
+  .purchase-table thead,
+  .purchase-table tbody,
+  .purchase-table th,
+  .purchase-table td,
+  .purchase-table tr {
+    display: block;
+    width: 70%;
+  }
+
+  .purchase-table thead {
+    display: none; /* hide table header */
+  }
+
+  .purchase-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .purchase-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .purchase-table td:last-child {
+    border-bottom: none;
+  }
+
+  .purchase-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #40434e;
+  }
+}

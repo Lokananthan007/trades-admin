@@ -1,24 +1,50 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Sidemenubar from './navbar/Sidemenubar';
+import Login from './login/Login';
+import PrivateRoute from './rout/PrivateRoute';
+import Withdraw from './components/Withdraw';
+import { Navigate } from 'react-router-dom';
 import './App.css';
+import Data from './components/Data';
+import Qr from './components/Qr';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Sidemenubar /> 
+          <Routes>
+            <Route path="" element={<Login />} />
+            <Route
+              path="/Data"
+              element={
+                <PrivateRoute>
+                  <Data/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/Withdraw"
+              element={
+                <PrivateRoute>
+                  <Withdraw/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/Qr"
+              element={
+                <PrivateRoute>
+                  <Qr/>
+                </PrivateRoute>
+              }
+            />
+            
+            <Route path="*" element={<Navigate to="" />} />
+          </Routes>
+        </div>
+    </Router>
   );
 }
 
