@@ -29,33 +29,34 @@ function Data() {
       <h1>Client Data</h1>
       <div className="table-container">
         <table className="purchase-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>User Name</th>
-              <th>Mobile</th>
-              <th>Invest</th>
-              <th>Daily Income</th> {/* ✅ Added Daily Income */}
-              <th>Transaction ID</th>
-              <th>Claim Type</th>
-              <th>QR Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {purchases.map((purchase) => (
-              <tr key={purchase._id}>
-                <td>{new Date(purchase.createdAt).toLocaleDateString()}</td>
-                <td>{purchase.user?.username}</td>
-                <td>{purchase.user?.mobile}</td>
-                <td>{purchase.invest}</td>
-                <td>{purchase.dailyIncome}</td> {/* ✅ Display dailyIncome */}
-                <td>{purchase.upiId}</td>
-                <td>{purchase.claimType}</td>
-                <td>{purchase.qrName}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>User Name</th>
+      <th>Mobile</th>
+      <th>Invest</th>
+      <th>Daily Income</th>
+      <th>Transaction ID</th>
+      <th>Claim Type</th>
+      <th>QR Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {purchases.map((purchase) => (
+      <tr key={purchase._id}>
+        <td>{new Date(purchase.createdAt).toLocaleDateString()}</td>
+        <td>{purchase.user?.username}</td>
+        <td>{purchase.user?.mobile}</td>
+        <td>{purchase.invest}</td>
+        <td>{purchase.dailyIncome}</td>
+        <td>{purchase.upiId}</td>
+        <td>{purchase.claimType}</td>
+        <td>{purchase.qrName}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
       </div>
     </div>
   );
