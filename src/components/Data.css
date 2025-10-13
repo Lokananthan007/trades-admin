@@ -2,7 +2,7 @@
   padding: 20px;
 }
 
-/* Make table scrollable horizontally */
+/* Desktop and Tablet */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -12,7 +12,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  min-width: 700px; /* keep structure on wide screen */
+  min-width: 700px; /* Keep structure on desktop */
 }
 
 .purchase-table th,
@@ -20,7 +20,7 @@
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
-  white-space: nowrap; /* prevent breaking */
+  white-space: nowrap;
 }
 
 .purchase-table th {
@@ -32,7 +32,7 @@
   background-color: #f9f9f9;
 }
 
-/* ✅ Responsive: Convert to cards on small screens */
+/* ✅ Mobile Responsive: Convert table to cards */
 @media (max-width: 768px) {
   .purchase-table,
   .purchase-table thead,
@@ -41,11 +41,19 @@
   .purchase-table td,
   .purchase-table tr {
     display: block;
-    width: 70%;
+    width: 100%; /* ✅ changed from 100vh to 100% */
+  }
+
+  .table-container {
+    overflow-x: hidden; /* ✅ no horizontal scroll */
+  }
+
+  .purchase-table {
+    min-width: unset; /* ✅ remove fixed width on mobile */
   }
 
   .purchase-table thead {
-    display: none; /* hide table header */
+    display: none; /* hide header */
   }
 
   .purchase-table tr {
@@ -54,7 +62,7 @@
     border-radius: 8px;
     padding: 10px;
     background: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
   .purchase-table td {
@@ -65,6 +73,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%; /* ✅ ensures full width fit */
   }
 
   .purchase-table td:last-child {
@@ -75,5 +84,12 @@
     content: attr(data-label);
     font-weight: bold;
     color: #40434e;
+  }
+}
+
+@media (max-width: 480px) {
+  .purchase-table td,
+  .purchase-table td::before {
+    font-size: 10px;
   }
 }

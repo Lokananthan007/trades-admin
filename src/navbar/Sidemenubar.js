@@ -3,6 +3,7 @@ import { Nav } from "react-bootstrap";
 import { FaDatabase, FaMoneyBillWave, FaQrcode, FaBars } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuLogOut } from "react-icons/lu";
+import Logo from "../assets/images/logo.png";
 
 function Sidemenubar({ children }) {
   const [activeLink, setActiveLink] = useState("");
@@ -32,7 +33,7 @@ function Sidemenubar({ children }) {
       {/* 🔹 Header */}
       <div className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <img src="/logo.png" alt="Logo" />
+        <img src={Logo} alt="Logo" />
         <button onClick={handleLogout}>
           <LuLogOut /> Logout
         </button>

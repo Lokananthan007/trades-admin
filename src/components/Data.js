@@ -41,22 +41,21 @@ function Data() {
       <th>QR Name</th>
     </tr>
   </thead>
-  <tbody>
-    {purchases.map((purchase) => (
-      <tr key={purchase._id}>
-        <td>{new Date(purchase.createdAt).toLocaleDateString()}</td>
-        <td>{purchase.user?.username}</td>
-        <td>{purchase.user?.mobile}</td>
-        <td>{purchase.invest}</td>
-        <td>{purchase.dailyIncome}</td>
-        <td>{purchase.upiId}</td>
-        <td>{purchase.claimType}</td>
-        <td>{purchase.qrName}</td>
-      </tr>
-    ))}
-  </tbody>
+<tbody>
+  {purchases.map((purchase) => (
+    <tr key={purchase._id}>
+      <td data-label="Date">{new Date(purchase.createdAt).toLocaleDateString()}</td>
+      <td data-label="User Name">{purchase.user?.username}</td>
+      <td data-label="Mobile">{purchase.user?.mobile}</td>
+      <td data-label="Invest">{purchase.invest}</td>
+      <td data-label="Daily Income">{purchase.dailyIncome}</td>
+      <td data-label="Transaction ID">{purchase.upiId}</td>
+      <td data-label="Claim Type">{purchase.claimType}</td>
+      <td data-label="QR Name">{purchase.qrName}</td>
+    </tr>
+  ))}
+</tbody>
 </table>
-
       </div>
     </div>
   );
