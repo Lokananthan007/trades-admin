@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 import './App.css';
 import Data from './components/Data';
 import Qr from './components/Qr';
+import Reguser from './components/Reguser';
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Qr/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reg"
+              element={
+                <PrivateRoute>
+                  <Reguser/>
                 </PrivateRoute>
               }
             />

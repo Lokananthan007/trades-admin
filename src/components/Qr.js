@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useEffect} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import "./Qr.css";
 
 function Qr() {
   const [qrName, setQrName] = useState("");
+  const [upiId, setUpiId] = useState(""); // ✅ new field
   const [qrFile, setQrFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [qrs, setQrs] = useState([]);
@@ -23,30 +24,31 @@ function Qr() {
     }
   };
 
-const fetchQrs = useCallback(async () => {
-  try {
-    const res = await axios.get(`${API_URL}/api/qr`);
-    setQrs(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-}, [API_URL]); // dependencies
+  const fetchQrs = useCallback(async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/qr`);
+      setQrs(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [API_URL]);
 
-useEffect(() => {
-  fetchQrs();
-}, [fetchQrs]);
+  useEffect(() => {
+    fetchQrs();
+  }, [fetchQrs]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!qrFile || !qrName) {
-      alert("Please enter a name and upload a QR image.");
+    if (!qrFile || !qrName || !upiId) {
+      alert("Please fill all fields and upload a QR image.");
       return;
     }
 
     try {
       const formData = new FormData();
       formData.append("name", qrName);
+      formData.append("upiId", upiId);
       formData.append("qrImage", qrFile);
 
       await axios.post(`${API_URL}/api/qr/upload`, formData, {
@@ -55,6 +57,7 @@ useEffect(() => {
 
       alert("QR uploaded successfully!");
       setQrName("");
+      setUpiId("");
       setQrFile(null);
       setPreview(null);
       fetchQrs(); // refresh table
@@ -67,26 +70,24 @@ useEffect(() => {
   const handleStatusChange = async (id, status) => {
     try {
       await axios.patch(`${API_URL}/api/qr/status/${id}`, { status });
-      fetchQrs(); // refresh table
+      fetchQrs();
     } catch (err) {
       console.error(err);
       alert("Failed to update status");
     }
   };
 
-// ✅ Delete
-const handleDelete = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this QR?")) return;
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this QR?")) return;
 
-  try {
-    await axios.delete(`${API_URL}/api/qr/${id}`);
-    fetchQrs();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to delete QR");
-  }
-};
-
+    try {
+      await axios.delete(`${API_URL}/api/qr/${id}`);
+      fetchQrs();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete QR");
+    }
+  };
 
   return (
     <div className="main-content">
@@ -100,6 +101,17 @@ const handleDelete = async (id) => {
             value={qrName}
             onChange={(e) => setQrName(e.target.value)}
             placeholder="Enter QR name"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>UPI ID:</label>
+          <input
+            type="text"
+            value={upiId}
+            onChange={(e) => setUpiId(e.target.value)}
+            placeholder="e.g., example@upi"
             required
           />
         </div>
@@ -124,46 +136,46 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>Name</th>
+            <th>UPI ID</th>
             <th>QR Image</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-  {qrs.map((qr) => (
-    <tr key={qr._id}>
-      <td data-label="Name">{qr.name}</td>
-      <td data-label="QR Image">
-        <img src={qr.qrImage} alt={qr.name} width="100" />
-      </td>
-      <td data-label="Status">{qr.status}</td>
-<td data-label="Action">
-  <button
-    className="btn-display"
-    onClick={() => handleStatusChange(qr._id, "display")}
-    disabled={qr.status === "display"}
-  >
-    Display
-  </button>
+          {qrs.map((qr) => (
+            <tr key={qr._id}>
+              <td>{qr.name}</td>
+              <td>{qr.upiId}</td> {/* ✅ display upi */}
+              <td><img src={qr.qrImage} alt={qr.name} width="100" /></td>
+              <td>{qr.status}</td>
+              <td>
+                <button
+                  className="btn-display"
+                  onClick={() => handleStatusChange(qr._id, "display")}
+                  disabled={qr.status === "display"}
+                >
+                  Display
+                </button>
 
-  <button
-    className="btn-hide"
-    onClick={() => handleStatusChange(qr._id, "hide")}
-    disabled={qr.status === "hide"}
-  >
-    Hide
-  </button>
+                <button
+                  className="btn-hide"
+                  onClick={() => handleStatusChange(qr._id, "hide")}
+                  disabled={qr.status === "hide"}
+                >
+                  Hide
+                </button>
 
-  <button
-    className="btn-delete"
-    onClick={() => handleDelete(qr._id)}
-  >
-    Delete
-  </button>
-</td>
-    </tr>
-  ))}
-</tbody>
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDelete(qr._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

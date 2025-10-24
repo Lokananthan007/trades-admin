@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
-import { FaDatabase, FaMoneyBillWave, FaQrcode, FaBars } from "react-icons/fa";
+import { FaDatabase, FaMoneyBillWave, FaQrcode, FaBars ,FaUsers } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuLogOut } from "react-icons/lu";
 import Logo from "../assets/images/logo.png";
@@ -84,6 +84,21 @@ function Sidemenubar({ children }) {
             >
               <FaQrcode />
               <span className="link-text">QR</span>
+            </Nav.Link>
+          </Nav.Item>
+
+          <Nav.Item>
+            <Nav.Link
+              as={Link}
+              to="/reg"
+              className={activeLink === "/reg" ? "active" : ""}
+              onClick={() => {
+                setActiveLink("/reg");
+                closeSidebar();
+              }}
+            >
+              <FaUsers  />
+              <span className="link-text">User Registre Data</span>
             </Nav.Link>
           </Nav.Item>
         </Nav>
